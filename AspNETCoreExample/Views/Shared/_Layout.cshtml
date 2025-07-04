@@ -6,7 +6,7 @@
     <title>@ViewData["Title"]</title>
 
     <partial name="_Styles" />
-    <link href="~/css/chat.css" rel="stylesheet" />
+
 
     @if (ViewData["TenantCSS"] != null)
     {
@@ -21,16 +21,27 @@
             <img src="@ViewData["LogoImage"]" />
         </a>
 
-        <partial name ="_TopBar" />
-        
+        <div class="navbar" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item m-2">
+                    <a class="nav-link top-link p-1" id="home" href="~/">.NET Core Vertex</a>
+                </li>
+            </ul>
+        </div>
+
     </nav>
 
-    <div class="container-fluid">
+    <div class="container   ">
         @RenderBody()
     </div>
 
-    <partial name="_Scripts" />
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
     @RenderSection("Scripts", required: false)
+
 
 
 </body>
