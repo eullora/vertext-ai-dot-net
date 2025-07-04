@@ -6,14 +6,13 @@ namespace TechStrat.RGPT.UI.Services
 {
     public interface IFreeformService
     {
-        StreamGenerateContentStream StreamGenerateContent(string query, string groundingSource ="");        
+        StreamGenerateContentStream StreamGenerateContent(string query, string groundingSource = "");
     }
     public class FreeformService : IFreeformService
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly string _rootPath;
         private readonly string _publisher;
-        private readonly string _credentialsPath;        
         private readonly string _instructions;
         private readonly string _locaion;
         private readonly string _projectId;
@@ -28,9 +27,8 @@ namespace TechStrat.RGPT.UI.Services
             _publisher = "google";
             _locaion = "your-project-location";
             _projectId = "your-project-id";
-            _modelName = "";
-            _credentialsPath = "credentials.json";
-            
+            _modelName = "gemini-2.5-flash";
+
             _instructions = @"You are a front-end web developer specializing in creating responsive websites using Bootstrap 5 and FontAwesome.  Your task is to generate HTML code from an image of a website layout. The user will provide the image.
                 **Instructions:**
 
@@ -60,25 +58,23 @@ namespace TechStrat.RGPT.UI.Services
         {
             _query = query;
             _dataStore = groundingSource;
-
             var serviceClient = ConstructServiceClient();
-
-            var contentRequest = !string.IsNullOrEmpty(_dataStore) ? GenerateWithGrounding() : GenerateWithoutGrounding();
-            return serviceClient.StreamGenerateContent(contentRequest);
-        }      
+            return serviceClient.StreamGenerateContent(GetRequest());
+        }
         private PredictionServiceClient ConstructServiceClient()
         {
             return new PredictionServiceClientBuilder
             {
-                Endpoint = $"{_locaion}-aiplatform.googleapis.com",
-                CredentialsPath = Path.Combine(_rootPath, _credentialsPath)
-            }.Build();
+                Endpoint = $"{_locaion}-aiplatform.googleapis.com"
+            }
+            .Build();
         }
-        private GenerateContentRequest GenerateWithGrounding()
-        {             
+        private GenerateContentRequest GetRequest()
+        {
             var request = new GenerateContentRequest
             {
                 Model = $"projects/{_projectId}/locations/{_locaion}/publishers/{_publisher}/models/{_modelName}",
+
                 SafetySettings =
                 {
                     new SafetySetting
@@ -108,7 +104,7 @@ namespace TechStrat.RGPT.UI.Services
                     Parts =
                     {
                         new Part {
-                            Text = File.ReadAllText(Path.Combine(_rootPath,"Prompts", _instructions))
+                            Text = _instructions
                         }
                     }
                 },
@@ -120,21 +116,22 @@ namespace TechStrat.RGPT.UI.Services
                     MaxOutputTokens = 8192,
                 },
 
-                Tools =
-                {
-                    new Tool
-                    {
-                        Retrieval = new Retrieval
-                        {
-                            VertexAiSearch = new VertexAISearch
-                            {
-                                Datastore = _dataStore
-                            }
-                        }
-                    }
-                }
+                /////////////////// add tools for grounding support if needed.
+                //Tools =
+                //{
+                //    new Tool
+                //    {
+                //        Retrieval = new Retrieval
+                //        {
+                //            VertexAiSearch = new VertexAISearch
+                //            {
+                //                Datastore = _dataStore
+                //            }
+                //        }
+                //    }
+                //}
             };
-
+ 
             request.Contents.Add(new Content
             {
                 Role = "USER",
@@ -144,67 +141,9 @@ namespace TechStrat.RGPT.UI.Services
                 }
             });
 
-            return request; 
-        }
-        private GenerateContentRequest GenerateWithoutGrounding()
-        {
 
-            var request =  new GenerateContentRequest
-            {
-                Model = $"projects/{_projectId}/locations/{_locaion}/publishers/{_publisher}/models/{_modelName}",
-                SafetySettings =
-                {
-                    new SafetySetting
-                    {
-                        Category = HarmCategory.HateSpeech,
-                        Threshold = HarmBlockThreshold.Off
-                    },
-                    new SafetySetting
-                    {
-                        Category= HarmCategory.DangerousContent,
-                        Threshold = HarmBlockThreshold.Off
-                    },
-                    new SafetySetting
-                    {
-                        Category = HarmCategory.SexuallyExplicit,
-                        Threshold = HarmBlockThreshold.Off
-                    },
-                    new SafetySetting
-                    {
-                        Category = HarmCategory.Harassment,
-                        Threshold = HarmBlockThreshold.Off
-                    }
-                },
 
-                SystemInstruction = new Content
-                {
-                    Parts =
-                    {
-                        new Part {
-                            Text = File.ReadAllText(Path.Combine(_rootPath,"Prompts", _instructions))
-                        }
-                    }
-                },
-
-                GenerationConfig = new GenerationConfig
-                {
-                    Temperature = 1,
-                    TopP = 0.95f,
-                    MaxOutputTokens = 8192
-                }
-            };
-
-            var content = new Content
-            {
-                Role = "USER",
-                Parts =
-                {
-                    new Part { Text = _query }
-                }
-            };
-            
-            request.Contents.Add(content);
             return request;
-        }          
+        }
     }
 }
