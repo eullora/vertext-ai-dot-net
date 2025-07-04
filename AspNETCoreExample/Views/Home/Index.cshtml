@@ -1,0 +1,49 @@
+﻿<div class="row">
+      
+    <div class="col-md-12 p-4 chat-container">
+       
+        <div class="col-md-12 mb-2 p-2 chat-window" id="messages"></div>
+
+        <div class="d-flex justify-content-center">
+            <input type="text" class="form-control form-control-lg m-1 me-2 border-dark" autocomplete="off" id="txtInput">
+            <button class="btn btn-sm btn-primary m-1 send-width" id="btnSend">
+                <i class="fa-regular fa-paper-plane fs-5"></i>
+            </button>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" charset="UTF-8"></script>       
+    <script src="~/js/vertex.js?@Guid.NewGuid()"></script>    
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#txtInput").on('keyup', function (e) {
+
+                if (e.key === 'Enter' || e.keyCode === 13) {
+                    $("#btnSend").click();
+                }
+            });
+
+            $("#btnSend").click(function () {
+
+                var inp = $('#txtInput').val();
+                if (inp === "") return;
+
+                $('#messages').append(`<div class="user-container"><div class="icon-circle-right"><i class="fa-regular fa-user"></i></div></div>`);
+                $('#messages').append(`<div class="outgoing-chat">${inp}</div>`);
+                $('#txtInput').focus();
+                $('#txtInput').val("");
+
+                executeStream(inp);
+
+            });
+        });
+
+    </script>
+}

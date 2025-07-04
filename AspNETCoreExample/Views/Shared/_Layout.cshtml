@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+
+    <partial name="_Styles" />
+    <link href="~/css/chat.css" rel="stylesheet" />
+
+    @if (ViewData["TenantCSS"] != null)
+    {
+        <link href="~/css/@ViewData["TenantCss"].ToString()" rel="stylesheet" />
+    }
+    @RenderSection("Style", required: false)
+</head>
+<body>
+
+    <nav class="sb-topnav navbar navbar-white navbar-expand border-bottom">
+        <a class="navbar-brand ps-3" href="~/">
+            <img src="@ViewData["LogoImage"]" />
+        </a>
+
+        <partial name ="_TopBar" />
+        
+    </nav>
+
+    <div class="container-fluid">
+        @RenderBody()
+    </div>
+
+    <partial name="_Scripts" />
+    @RenderSection("Scripts", required: false)
+
+
+</body>
+</html>

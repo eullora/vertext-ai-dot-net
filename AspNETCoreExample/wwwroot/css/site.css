@@ -1,0 +1,61 @@
+body {
+    background-color: #f5f7fa!important;
+}
+.search-bar {
+    max-width: 80%;
+    margin: 1rem auto;
+}
+
+.tag {
+    margin: 0 0.5rem;
+}
+
+.featured-card {
+    display: flex;
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 1rem auto;
+    height:400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.recently-used .card {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.section-title {
+    font-weight: bold;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+.text-gray{
+    color:#808080
+}
+.bg-gray{
+    background-color:#808080!important
+}
+.navbar-white{
+    background-color:white!important;
+}
+.pointer{
+    cursor: pointer;
+}
+.send-width {
+    width: 50px;
+}
+.chat-container {
+    background-color: #f5f7fa
+}
+textarea {
+    height: auto;
+}
+.chunk-inner-right {    
+    max-height: 500px;
+    overflow-y: scroll;    
+    overflow-x: hidden;    
+}
+
+
