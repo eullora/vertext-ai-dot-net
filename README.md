@@ -33,15 +33,15 @@ This ASP.NET Core MVC application is built to integrate with Google Cloud Vertex
 - HomeController.cs
 - API/VertexApiController.cs // Handles interaction with Vertex AI
 
-/Views
-/Home
-Index.cshtml // Contains frontend UI and vanilla JS logic
-/wwwroot
-/css
-/js
-Program.cs
-Startup.cs
-appsettings.json
+- /Views
+- /Home
+- Index.cshtml // Contains frontend UI and vanilla JS logic
+- /wwwroot
+- /css
+- /js
+- Program.cs
+- Startup.cs
+- appsettings.json
 
 ## Technologies Used
 
