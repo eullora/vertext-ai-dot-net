@@ -24,17 +24,17 @@ This ASP.NET Core MVC application is built to integrate with Google Cloud Vertex
 - Vertex AI API enabled  
 - Service account with appropriate IAM roles (e.g., Vertex AI User)  
 - JSON key file for the service account  
+- Configure the environment variable GOOGLE_APPLICATION_CREDENTIALS by setting it to the file path of the service account’s JSON key
 
 ## Folder Structure
 
 /Controllers
 
 HomeController.cs
+API/VertexApiController.cs // Handles interaction with Vertex AI
 
-ChatApiController.cs // Handles interaction with Vertex AI
 /Views
 /Home
-
 Index.cshtml // Contains frontend UI and vanilla JS logic
 /wwwroot
 /css
