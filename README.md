@@ -28,10 +28,10 @@ This ASP.NET Core MVC application is built to integrate with Google Cloud Vertex
 
 ## Folder Structure
 
-/Controllers
+- /Controllers
 
-HomeController.cs
-API/VertexApiController.cs // Handles interaction with Vertex AI
+- HomeController.cs
+- API/VertexApiController.cs // Handles interaction with Vertex AI
 
 /Views
 /Home
